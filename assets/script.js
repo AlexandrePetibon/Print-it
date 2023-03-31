@@ -15,44 +15,58 @@ const slides = [
 		"image":"/assets/images/slideshow/slide4.png",
 		"tagLine":"Autocollants <span>avec découpe laser sur mesure</span>"
 	}
-]
+];
 
-const leftArrow = document.querySelector('.arrow_left')
-const rightArrow = document.querySelector('.arrow_right')
-const dots = document.querySelector('.dots')
-const img = document.querySelector('.banner-img')
-let positionSlide = 0
-console.log(img)
-const txt = document.querySelector('.banner-txt')
+const leftArrow = document.querySelector('.arrow_left');
+const rightArrow = document.querySelector('.arrow_right');
+const dots = document.querySelector('.dots');
+const img = document.querySelector('.banner-img');
+let positionSlide = 0;
+const txt = document.querySelector('.banner-txt');
 
 leftArrow.addEventListener('click', function() {
-	positionSlide--
-	if ( positionSlide ===-1) {
-		positionSlide=slides.length -1
-
+	positionSlide--;
+	if (positionSlide === -1) {
+		positionSlide = slides.length - 1;
 	}
-	img.src= slides[positionSlide].image
-	txt.innerHTML = slides[positionSlide].tagLine
-	console.log('On clique sur la flèche de gauche')
-})
+	img.src = slides[positionSlide].image;
+	txt.innerHTML = slides[positionSlide].tagLine;
+	console.log('On clique sur la flèche de gauche');
+	updateDots();
+});
+
 rightArrow.addEventListener('click', function() {
-	positionSlide++
-	if ( positionSlide === slides.length) {
-		positionSlide=0
+	positionSlide++;
+	if (positionSlide === slides.length) {
+		positionSlide = 0;
 	}
-	img.src= slides[positionSlide].image 
-	txt.innerHTML = slides[positionSlide].tagLine
-	console.log('On clique sur la flèche de droite')
-})
+	img.src = slides[positionSlide].image;
+	txt.innerHTML = slides[positionSlide].tagLine;
+	console.log('On clique sur la flèche de droite');
+	updateDots();
+});
 
-for (let i = 0 ; i < slides.length ; i++) {
-	const newDot = document.createElement('div')
-	newDot.classList='dot'
-	dots.appendChild(newDot)
-	console.log('.dot')
+for (let i = 0; i < slides.length; i++) {
+	const newDot = document.createElement('div');
+	newDot.classList = 'dot';
+	dots.appendChild(newDot);
+	newDot.addEventListener('click', function() {
+		positionSlide = i;
+		img.src = slides[positionSlide].image;
+		txt.innerHTML = slides[positionSlide].tagLine;
+		updateDots();
+	});
 }
-	
-let dotVide = document.querySelector('.dot')
 
-  dotVide.classList.add('dot_selected')
+let dot = document.querySelectorAll('.dot');
+dot[0].classList.add('dot_selected');
 
+function updateDots() {
+	for (let i = 0; i < dot.length; i++) {
+		if (i === positionSlide) {
+			dot[i].classList.add('dot_selected');
+		} else {
+			dot[i].classList.remove('dot_selected');
+		}
+	}
+}
